@@ -30,7 +30,8 @@ from threading import Timer, Thread, Event
 RECORD_FILE = 'record.txt'
 
 # Setup discord api
-description = ''' a bot made a for an autistic little shit '''
+description = ''' a bot made a to track the total and
+                  max time that nick has stayed in the call '''
 
 client = discord.Client()
 
