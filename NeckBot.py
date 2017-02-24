@@ -30,7 +30,7 @@ from threading import Timer, Thread, Event
 RECORD_FILE = 'record.txt'
 
 # Setup discord api
-description = ''' a bot made a to track the total and
+description = ''' a bot made to track the total and
                   max time that nick has stayed in the call '''
 
 client = discord.Client()
@@ -72,10 +72,33 @@ def update_record(new_record):
 
 class Stopwatch(Thread):
 
-    def __init__(self, event):
-        Thread.__init__(self)
-        self.stopped = event
+    def __init__(self):
+        self._start_time = None
+        self._stop_time = None
 
+    def start(self):
+        self._start_time = time.time()
+
+    def stop(self):
+        self._stop_time = time.time()
+
+   @property
+    def time_elapsed(self):
+        assert not self._stop_time, \
+        return time.time() - self._start_time
+
+    @property
+    def total_run_time(self):
+        return self._stop_time - self._start_time
+
+    def __enter__(self):
+        self.start()
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.stop()
+        if type:
+            raise type, value, traceback
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
